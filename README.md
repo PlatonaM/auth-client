@@ -33,7 +33,7 @@ Client API
 
 Create a client object with:
 
-`auth_client.Client(url, usr, pw, id, timeout=15)`
+    auth_client.Client(url, usr, pw, id, timeout=15)
 
 + `url` URL of token provider
 + `usr` Username
@@ -45,7 +45,7 @@ Create a client object with:
 
 Retrieves new access token or refreshes existing access token. Returns access token as string.
 
-`getAccessToken()`
+    getAccessToken()
 
 Raises `NoTokenError` if no token can be retrieved.
 
@@ -53,7 +53,7 @@ Raises `NoTokenError` if no token can be retrieved.
 
 Convenience method wrapping getAccessToken. Returns authorization HTTP header with access token as dictionary.
 
-`getHeader()`
+    getHeader()
 
 Raises `NoTokenError` if no token can be retrieved.
 
@@ -62,7 +62,7 @@ Logging
 
 The package utilizes the python logging facility to provide feedback during runtime. Enable logging via:
         
-`auth_client.logger.init(level=logging.INFO, handler=None, formatter=None)`
+    auth_client.logger.init(level=logging.INFO, handler=None, formatter=None)
 
 + `level` Set log level [optional] ([see levels](https://docs.python.org/3/library/logging.html#logging-levels))
 + `handler` Output handler object [optional] ([see handlers](https://docs.python.org/3/library/logging.handlers.html#module-logging.handlers))
