@@ -51,6 +51,14 @@ class Token:
 
 class Client:
     def __init__(self, url: str, usr: str, pw: str, id: str, timeout: typing.Optional[int] = 15):
+        """
+        Create a client object.
+        :param url: URL of token provider.
+        :param usr: Username.
+        :param pw: Password.
+        :param id: Client ID required by the token provider.
+        :param timeout: Request timeout.
+        """
         self.__url = url
         self.__usr = usr
         self.__pw = pw
