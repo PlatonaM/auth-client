@@ -29,7 +29,7 @@ Uninstall: `pip uninstall auth-client`
 Client API
 -----------------
 
-#### Client object
+### Client object
 
 Create a client object with:
 
@@ -41,7 +41,7 @@ Create a client object with:
 + `id` Client ID required by the token provider.
 + `timeout` Request timeout [optional]
 
-#### Get Token
+### Get Token
 
 Retrieves new access token or refreshes existing access token. Returns access token as string.
 
@@ -49,7 +49,7 @@ Retrieves new access token or refreshes existing access token. Returns access to
 
 Raises `NoTokenError` if no token can be retrieved.
 
-#### Get Header
+### Get Header
 
 Convenience method wrapping getAccessToken. Returns authorization HTTP header with access token as dictionary.
 
