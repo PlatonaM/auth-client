@@ -19,35 +19,35 @@ import setuptools
 
 def read_metadata(pkg_file):
     metadata = dict()
-    with open(pkg_file, 'r') as init_file:
+    with open(pkg_file, "r") as init_file:
         for line in init_file.readlines():
-            if line.startswith('__'):
-                line = line.replace("'", '')
-                line = line.replace('\n', '')
-                key, value = line.split(' = ')
+            if line.startswith("__"):
+                line = line.replace("\"", "")
+                line = line.replace("\n", "")
+                key, value = line.split(" = ")
                 metadata[key] = value
     return metadata
 
 
-metadata = read_metadata('auth_client/__init__.py')
+metadata = read_metadata("auth_client/__init__.py")
 
 
 setuptools.setup(
-    name=metadata.get('__title__'),
-    version=metadata.get('__version__'),
-    author=metadata.get('__author__'),
-    description=metadata.get('__description__'),
-    license=metadata.get('__license__'),
-    url=metadata.get('__url__'),
-    copyright=metadata.get('__copyright__'),
-    install_requires=['requests>1,<3'],
+    name=metadata.get("__title__"),
+    version=metadata.get("__version__"),
+    author=metadata.get("__author__"),
+    description=metadata.get("__description__"),
+    license=metadata.get("__license__"),
+    url=metadata.get("__url__"),
+    copyright=metadata.get("__copyright__"),
+    install_requires=["requests>1,<3"],
     packages=setuptools.find_packages(),
-    python_requires='>=3.7',
+    python_requires=">=3.7",
     classifiers=(
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-        'Intended Audience :: Developers',
-        'Operating System :: Unix',
-        'Natural Language :: English'
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Intended Audience :: Developers",
+        "Operating System :: Unix",
+        "Natural Language :: English"
     ),
 )
