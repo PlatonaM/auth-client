@@ -14,7 +14,7 @@
    limitations under the License.
 """
 
-__all__ = ('Method', 'ContentType', 'Request', 'URLError', 'SocketTimeout')
+__all__ = ("Method", "ContentType", "Request", "URLError", "SocketTimeout")
 
 
 from ..logger._logger import getLogger
@@ -27,7 +27,7 @@ import urllib.parse
 import json
 
 
-_logger = getLogger(__name__.split('.', 1)[-1].replace("_", ""))
+_logger = getLogger(__name__.split(".", 1)[-1].replace("_", ""))
 
 
 class SocketTimeout(Exception):
@@ -57,9 +57,9 @@ class Method:
 
 
 class ContentType:
-    json = 'application/json'
-    form = 'application/x-www-form-urlencoded'
-    plain = 'text/plain'
+    json = "application/json"
+    form = "application/x-www-form-urlencoded"
+    plain = "text/plain"
 
 
 class Request:
@@ -71,7 +71,7 @@ class Request:
         self.__timeout = timeout
         self.__request = None
         if self.__body and not content_type:
-            raise RuntimeError('missing content type for body')
+            raise RuntimeError("missing content type for body")
         if self.__body and content_type:
             if content_type == ContentType.json:
                 self.__body = json.dumps(self.__body).encode()
@@ -83,7 +83,7 @@ class Request:
                 self.__body = str(self.__body).encode()
             else:
                 raise RuntimeError("unsupported content type '{}'".format(content_type))
-            self.__headers['content-type'] = content_type
+            self.__headers["content-type"] = content_type
         self.__request = urllib.request.Request(
             self.__url,
             data=self.__body,

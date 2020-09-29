@@ -23,7 +23,7 @@ import json
 import typing
 
 
-_logger = getLogger(__name__.split('.', 1)[-1].replace("_", ""))
+_logger = getLogger(__name__.split(".", 1)[-1].replace("_", ""))
 
 
 class AuthError(Exception):
@@ -78,9 +78,9 @@ class Client:
         try:
             if self.__access_token:
                 if int(time.time()) - self.__access_token.time_stamp >= self.__access_token.max_age:
-                    _logger.debug('access token expired')
+                    _logger.debug("access token expired")
                     if int(time.time()) - self.__refresh_token.time_stamp >= self.__refresh_token.max_age:
-                        _logger.debug('refresh token expired')
+                        _logger.debug("refresh token expired")
                         self.__tokenRequest()
                     else:
                         self.__refreshRequest()
@@ -100,11 +100,11 @@ class Client:
     def __setResponse(self, payload: str) -> None:
         try:
             payload = json.loads(payload)
-            self.__access_token = Token(payload['access_token'], payload['expires_in'])
-            self.__refresh_token = Token(payload['refresh_token'], payload['refresh_expires_in'])
-            self.__token_type = payload['token_type']
-            self.__not_before_policy = payload['not-before-policy']
-            self.__session_state = payload['session_state']
+            self.__access_token = Token(payload["access_token"], payload["expires_in"])
+            self.__refresh_token = Token(payload["refresh_token"], payload["refresh_expires_in"])
+            self.__token_type = payload["token_type"]
+            self.__not_before_policy = payload["not-before-policy"]
+            self.__session_state = payload["session_state"]
         except (json.JSONDecodeError, TypeError) as ex:
             _logger.error("could not decode response - {}".format(ex))
             raise ResponseError
@@ -125,29 +125,29 @@ class Client:
             if resp.status == 200:
                 self.__setResponse(resp.body)
             else:
-                _logger.error('{} request got bad response - {}'.format(r_type, resp))
+                _logger.error("{} request got bad response - {}".format(r_type, resp))
                 raise RequestError
         except (http.SocketTimeout, http.URLError) as ex:
-            _logger.error('{} request failed - {}'.format(r_type, ex))
+            _logger.error("{} request failed - {}".format(r_type, ex))
             raise RequestError
 
     def __tokenRequest(self) -> None:
         _logger.debug("requesting new access token ...")
         payload = {
-            'grant_type': 'password',
-            'username': self.__usr,
-            'password': self.__pw,
-            'client_id': self.__id
+            "grant_type": "password",
+            "username": self.__usr,
+            "password": self.__pw,
+            "client_id": self.__id
         }
-        self.__request('token', payload)
+        self.__request("token", payload)
         _logger.debug("requesting new access token successful")
 
     def __refreshRequest(self) -> None:
         _logger.debug("requesting access token refresh ...")
         payload = {
-            'grant_type': 'refresh_token',
-            'client_id': self.__id,
-            'refresh_token': self.__refresh_token.token
+            "grant_type": "refresh_token",
+            "client_id": self.__id,
+            "refresh_token": self.__refresh_token.token
         }
-        self.__request('refresh', payload)
+        self.__request("refresh", payload)
         _logger.debug("requesting access token refresh successful")
