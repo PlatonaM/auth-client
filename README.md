@@ -47,11 +47,15 @@ Retrieves new access token or refreshes existing access token. Returns access to
 
 `getAccessToken()`
 
+Raises `NoTokenError` if no token can be retrieved.
+
 ##### Get Header
 
 Convenience method wrapping getAccessToken. Returns authorization HTTP header with access token as dictionary.
 
 `getHeader()`
+
+Raises `NoTokenError` if no token can be retrieved.
 
 Logging
 -----------------
