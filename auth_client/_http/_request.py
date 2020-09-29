@@ -17,7 +17,7 @@
 __all__ = ("Method", "ContentType", "Request", "URLError", "SocketTimeout")
 
 
-from ..logger._logger import getLogger
+from .._logger._logger import getLogger
 from ._response import Response
 import typing
 import socket

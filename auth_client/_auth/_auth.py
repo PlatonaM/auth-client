@@ -16,8 +16,8 @@
 
 __all__ = ("Client", "NoTokenError")
 
-from .. import http
-from ..logger._logger import getLogger
+from .. import _http
+from .._logger._logger import getLogger
 import time
 import json
 import typing
@@ -113,11 +113,11 @@ class Client:
             raise ResponseError
 
     def __request(self, r_type: str, payload: dict) -> None:
-        req = http.Request(
+        req = _http.Request(
             url=self.__url,
-            method=http.Method.POST,
+            method=_http.Method.POST,
             body=payload,
-            content_type=http.ContentType.form,
+            content_type=_http.ContentType.form,
             timeout=self.__timeout
         )
         try:
@@ -127,7 +127,7 @@ class Client:
             else:
                 _logger.error("{} request got bad response - {}".format(r_type, resp))
                 raise RequestError
-        except (http.SocketTimeout, http.URLError) as ex:
+        except (_http.SocketTimeout, _http.URLError) as ex:
             _logger.error("{} request failed - {}".format(r_type, ex))
             raise RequestError
 
