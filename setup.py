@@ -40,7 +40,6 @@ setuptools.setup(
     license=metadata.get("__license__"),
     url=metadata.get("__url__"),
     copyright=metadata.get("__copyright__"),
-    install_requires=["requests>1,<3"],
     packages=setuptools.find_packages(),
     python_requires=">=3.7",
     classifiers=(

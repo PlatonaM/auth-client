@@ -14,7 +14,7 @@
    limitations under the License.
 """
 
-__version__ = "0.0.2"
+__version__ = "0.0.3"
 __title__ = "auth-client"
 __description__ = "Helper package for accessing the platform HTTP API"
 __url__ = "https://github.com/PlatonaM/auth-client"
