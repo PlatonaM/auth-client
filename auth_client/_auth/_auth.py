@@ -125,7 +125,7 @@ class Client:
             if resp.status == 200:
                 self.__setResponse(resp.body)
             else:
-                _logger.error("{} request got bad response - {}".format(r_type, resp))
+                _logger.error("{} request got bad response - {}".format(r_type, resp.status))
                 raise RequestError
         except (_http.SocketTimeout, _http.URLError) as ex:
             _logger.error("{} request failed - {}".format(r_type, ex))
