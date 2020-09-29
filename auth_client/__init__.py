@@ -17,7 +17,7 @@
 __version__ = "0.0.1"
 __title__ = "auth-client"
 __description__ = "Helper package for accessing the platform HTTP API"
-__url__ = ""
+__url__ = "https://github.com/PlatonaM/auth-client"
 __author__ = "Yann Dumont"
 __license__ = "Apache License 2.0"
 __copyright__ = "Copyright 2020 InfAI (CC SES)"
