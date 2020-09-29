@@ -23,14 +23,6 @@ import logging.handlers
 import typing
 
 
-class levels:
-    info = logging.INFO,
-    warning = logging.WARNING,
-    error = logging.ERROR,
-    critical = logging.CRITICAL,
-    debug = logging.DEBUG
-
-
 msg_fmt = "%(asctime)s - %(levelname)s: [%(name)s] %(message)s"
 date_fmt = "%m.%d.%Y %I:%M:%S %p"
 
@@ -38,7 +30,7 @@ logger = logging.getLogger(TITLE)
 logger.propagate = False
 
 
-def init(level: int = levels.info, handler: typing.Optional[logging.Handler] = None, formatter: typing.Optional[logging.Formatter] = None) -> None:
+def init(level: int = logging.INFO, handler: typing.Optional[logging.Handler] = None, formatter: typing.Optional[logging.Formatter] = None) -> None:
     if not handler:
         handler = logging.StreamHandler()
     if not formatter:
