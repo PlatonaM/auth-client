@@ -14,7 +14,7 @@
    limitations under the License.
 """
 
-__all__ = ("levels", "init")
+__all__ = ("init")
 
 
 from .. import __title__ as TITLE
