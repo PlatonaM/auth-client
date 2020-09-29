@@ -27,7 +27,7 @@ import urllib.parse
 import json
 
 
-_logger = getLogger(__name__.split(".", 1)[-1].replace("_", ""))
+_logger = getLogger(__name__.rsplit(".", 1)[-1].replace("_", ""))
 
 
 class SocketTimeout(Exception):
