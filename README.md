@@ -94,7 +94,7 @@ The package can be used with your favorite HTTP library. This example uses the p
         headers={"Authorization": "Bearer " + ac.getAccessToken()}
     )
     
-    # or for convience
+    # or for convenience
     response = requests.get(
         url="https://api.platform.com/data/my-data",
         headers=ac.getHeader()
