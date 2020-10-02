@@ -1,7 +1,11 @@
 auth-client
 ================
 
-Helper package for accessing the platform HTTP API.
+Helper package for accessing platform HTTP APIs.
+
+Supported grant types:
++ [resource-owner-password](https://docs.identityserver.io/en/aspnetcore2/topics/grant_types.html#resource-owner-password)
++ [client-credentials](https://docs.identityserver.io/en/aspnetcore2/topics/grant_types.html#client-credentials)
 
 ----------
 
@@ -33,12 +37,13 @@ Client API
 
 Create a client object with:
 
-    auth_client.Client(url, usr, pw, id, timeout=15)
+    auth_client.Client(url, client_id, secret=None, user=None, password=None, timeout=15)
 
-+ `url` URL of token provider
-+ `usr` Username
-+ `pw` Password
-+ `id` Client ID required by the token provider.
++ `url` URL of authorization endpoint.
++ `client_id` Client ID required by the authorization endpoint.
++ `secret` Secret, required by the client-credentials grant type [optional]
++ `user` Username, required by the resource-owner-password grant type [optional]
++ `password` Password, required by the resource-owner-password grant type [optional]
 + `timeout` Request timeout [optional]
 
 ### Get Token
@@ -71,7 +76,9 @@ The package utilizes the python logging facility to provide feedback during runt
 Example
 -----------------
 
-The package can be used with your favorite HTTP library. This example uses the popular python [requests](https://requests.readthedocs.io/en/master/) library.
+The package can be used with your favorite HTTP library. The below examples use the popular python [requests](https://requests.readthedocs.io/en/master/) library.
+
+#### resource-owner-password grant type:
 
     import auth_client
     import logging
@@ -83,9 +90,9 @@ The package can be used with your favorite HTTP library. This example uses the p
     # create a client object by providing the necessary credetials
     ac = auth_client.Client(
         url="https://auth.platform.com/token",
-        usr="my-user",
-        pw="my-password",
-        id="my-client-id"
+        client_id="my-client-id"
+        user="my-user",
+        password="my-password"
     )
     
     # send a request to the platform
@@ -98,4 +105,15 @@ The package can be used with your favorite HTTP library. This example uses the p
     response = requests.get(
         url="https://api.platform.com/data/my-data",
         headers=ac.getHeader()
+    )
+
+#### client-credentials grant type:
+
+    import auth_client
+    
+    # create a client object by providing the necessary credetials
+    ac = auth_client.Client(
+        url="https://auth.platform.com/token",
+        client_id="my-client-id",
+        secret="my-secret"
     )
