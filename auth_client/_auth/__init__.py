@@ -15,7 +15,7 @@
 """
 
 
-from ._auth import *
+from ._openid import *
 
 
-__all__ = _auth.__all__
+__all__ = _openid.__all__

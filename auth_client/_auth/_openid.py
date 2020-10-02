@@ -49,19 +49,20 @@ class Token:
 
 
 class Client:
-    def __init__(self, url: str, usr: str, pw: str, id: str, timeout: typing.Optional[int] = 15):
+    def __init__(self, url: str, client_id: str, secret: typing.Optional[str] = None, user: typing.Optional[str] = None, password: typing.Optional[str] = None, timeout: typing.Optional[int] = 15):
         """
         Create a client object.
-        :param url: URL of token provider.
-        :param usr: Username.
-        :param pw: Password.
-        :param id: Client ID required by the token provider.
-        :param timeout: Request timeout.
+        :param url: URL of authorization endpoint.
+        :param client_id: Client ID required by the authorization endpoint.
+        :param secret: Secret, required by the client-credentials grant type.
+        :param user: Username, required by the resource-owner-password grant type.
+        :param password: Password, required by the resource-owner-password grant type.
+        :param timeout: Token request timeout.
         """
         self.__url = url
-        self.__usr = usr
-        self.__pw = pw
-        self.__id = id
+        self.__usr = user
+        self.__pw = password
+        self.__id = client_id
         self.__timeout = timeout
         self.__access_token = None
         self.__refresh_token = None
