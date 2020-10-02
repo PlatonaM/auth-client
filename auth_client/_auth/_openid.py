@@ -63,6 +63,7 @@ class Client:
         self.__usr = user
         self.__pw = password
         self.__id = client_id
+        self.__secret = secret
         self.__timeout = timeout
         self.__access_token = None
         self.__refresh_token = None
@@ -133,12 +134,19 @@ class Client:
 
     def __tokenRequest(self) -> None:
         _logger.debug("requesting new access token ...")
-        payload = {
-            "grant_type": "password",
-            "username": self.__usr,
-            "password": self.__pw,
-            "client_id": self.__id
-        }
+        payload = {"client_id": self.__id}
+        if self.__secret:
+            _logger.debug("using client-credentials grant type")
+            payload["grant_type"] = "client_credentials"
+            payload["client_secret"] = self.__secret
+        elif self.__usr and self.__pw:
+            _logger.debug("using resource-owner-password grant type")
+            payload["grant_type"] = "password"
+            payload["username"] = self.__usr
+            payload["password"] = self.__pw
+        else:
+            _logger.error("missing credentials for supported grant types")
+            raise RequestError
         self.__request("token", payload)
         _logger.debug("requesting new access token successful")
 
@@ -149,5 +157,7 @@ class Client:
             "client_id": self.__id,
             "refresh_token": self.__refresh_token.token
         }
+        if self.__secret:
+            payload["client_secret"] = self.__secret
         self.__request("refresh", payload)
         _logger.debug("requesting access token refresh successful")
