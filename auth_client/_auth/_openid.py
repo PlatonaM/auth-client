@@ -16,6 +16,7 @@
 
 __all__ = ("Client", "NoTokenError")
 
+from .. import __version__ as VERSION
 from .. import _http
 from .._logger._logger import getLogger
 import time
@@ -70,6 +71,7 @@ class Client:
         self.__token_type = None
         self.__not_before_policy = None
         self.__session_state = None
+        _logger.debug("v" + VERSION)
 
     def getAccessToken(self) -> str:
         """
