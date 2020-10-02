@@ -22,11 +22,11 @@ Supported grant types:
 Installation
 -----------------
 
-Install the `auth-client` package via pip by issuing the following command: 
+Install the `auth-client` package via pip by issuing the following command in combination with a desired version X.X.X from the available git tags:
 
-`pip install git+https://github.com/PlatonaM/auth-client.git`
+`pip install git+https://github.com/PlatonaM/auth-client.git@X.X.X`
 
-Upgrade to new version: `pip install --upgrade git+https://github.com/PlatonaM/auth-client.git`
+Upgrade to new version: `pip install --upgrade git+https://github.com/PlatonaM/auth-client.git@X.X.X`
 
 Uninstall: `pip uninstall auth-client`
 
