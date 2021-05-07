@@ -14,7 +14,7 @@
    limitations under the License.
 """
 
-__version__ = "1.0.1"
+__version__ = "2.0.0"
 __title__ = "auth-client"
 __description__ = "Helper package for accessing the platform HTTP API"
 __url__ = "https://github.com/PlatonaM/auth-client"
@@ -24,4 +24,3 @@ __copyright__ = "Copyright 2020 InfAI (CC SES)"
 
 
 from ._auth import *
-from . import _logger as logger

@@ -16,14 +16,15 @@
 
 __all__ = ("Client", "NoTokenError")
 
-from .. import __version__ as VERSION
+
 from .. import _http
-from .._logger._logger import getLogger
+from .._logger._logger import get_logger
 import time
 import json
 import typing
 
-_logger = getLogger(__name__.rsplit(".", 1)[-1].replace("_", ""))
+
+_logger = get_logger(__name__.rsplit(".", 1)[-1].replace("_", ""))
 
 
 class AuthError(Exception):
@@ -50,14 +51,15 @@ class Token:
 
 
 class Client:
-    def __init__(self, url: str, client_id: str, secret: typing.Optional[str] = None, user: typing.Optional[str] = None, password: typing.Optional[str] = None, timeout: typing.Optional[int] = 15):
+    def __init__(self, url: str, client_id: str, secret: typing.Optional[str] = None, user: typing.Optional[str] = None, password: typing.Optional[str] = None, user_id: typing.Optional[str] = None, timeout: typing.Optional[int] = 15):
         """
         Create a client object.
         :param url: URL of authorization endpoint.
         :param client_id: Client ID required by the authorization endpoint.
-        :param secret: Secret, required by the client-credentials grant type.
+        :param secret: Secret, required by the client-credentials and token-exchange grant type.
         :param user: Username, required by the resource-owner-password grant type.
         :param password: Password, required by the resource-owner-password grant type.
+        :param user_id: User ID, required by the token-exchange grant type.
         :param timeout: Token request timeout.
         """
         self.__url = url
@@ -65,15 +67,15 @@ class Client:
         self.__pw = password
         self.__id = client_id
         self.__secret = secret
+        self.__usr_id = user_id
         self.__timeout = timeout
         self.__access_token = None
         self.__refresh_token = None
         self.__token_type = None
         self.__not_before_policy = None
         self.__session_state = None
-        _logger.debug("v" + VERSION)
 
-    def getAccessToken(self) -> str:
+    def get_access_token(self) -> str:
         """
         Retrieves new access token or refreshes existing access token. Returns access token.
         :return: Access token as string.
@@ -84,23 +86,23 @@ class Client:
                     _logger.debug("access token expired")
                     if int(time.time()) - self.__refresh_token.time_stamp >= self.__refresh_token.max_age:
                         _logger.debug("refresh token expired")
-                        self.__tokenRequest()
+                        self.__token_request()
                     else:
-                        self.__refreshRequest()
+                        self.__refresh_request()
             else:
-                self.__tokenRequest()
+                self.__token_request()
             return self.__access_token.token
         except (RequestError, ResponseError) as ex:
             raise NoTokenError(ex)
 
-    def getHeader(self) -> dict:
+    def get_header(self) -> dict:
         """
         Convenience method wrapping getAccessToken. Returns authorization HTTP header with access token.
         :return: Authorization HTTP header.
         """
-        return {"Authorization": "Bearer {}".format(self.getAccessToken())}
+        return {"Authorization": "Bearer {}".format(self.get_access_token())}
 
-    def __setResponse(self, payload: str) -> None:
+    def __set_response(self, payload: str) -> None:
         try:
             payload = json.loads(payload)
             self.__access_token = Token(payload["access_token"], payload["expires_in"])
@@ -126,7 +128,7 @@ class Client:
         try:
             resp = req.send()
             if resp.status == 200:
-                self.__setResponse(resp.body)
+                self.__set_response(resp.body)
             else:
                 _logger.error("{} request got bad response - {}".format(r_type, resp.status))
                 raise RequestError
@@ -134,10 +136,15 @@ class Client:
             _logger.error("{} request failed - {}".format(r_type, ex))
             raise RequestError
 
-    def __tokenRequest(self) -> None:
+    def __token_request(self) -> None:
         _logger.debug("requesting new access token ...")
         payload = {"client_id": self.__id}
-        if self.__secret:
+        if self.__usr_id and self.__secret:
+            _logger.debug("using token-exchange grant type")
+            payload["grant_type"] = "urn:ietf:params:oauth:grant-type:token-exchange"
+            payload["client_secret"] = self.__secret
+            payload["requested_subject"] = self.__usr_id
+        elif self.__secret:
             _logger.debug("using client-credentials grant type")
             payload["grant_type"] = "client_credentials"
             payload["client_secret"] = self.__secret
@@ -152,7 +159,7 @@ class Client:
         self.__request("token", payload)
         _logger.debug("requesting new access token successful")
 
-    def __refreshRequest(self) -> None:
+    def __refresh_request(self) -> None:
         _logger.debug("requesting access token refresh ...")
         payload = {
             "grant_type": "refresh_token",

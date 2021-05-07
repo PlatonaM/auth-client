@@ -14,31 +14,16 @@
    limitations under the License.
 """
 
-__all__ = ("init", )
+__all__ = ("get_logger", )
 
 
 from .. import __title__ as TITLE
 import logging
-import logging.handlers
-import typing
 
-
-msg_fmt = "%(asctime)s - %(levelname)s: [%(name)s] %(message)s"
-date_fmt = "%m.%d.%Y %I:%M:%S %p"
 
 logger = logging.getLogger(TITLE)
 logger.propagate = False
 
 
-def init(level: int = logging.INFO, handler: typing.Optional[logging.Handler] = None, formatter: typing.Optional[logging.Formatter] = None) -> None:
-    if not handler:
-        handler = logging.StreamHandler()
-    if not formatter:
-        formatter = logging.Formatter(fmt=msg_fmt, datefmt=date_fmt)
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-    logger.setLevel(level)
-
-
-def getLogger(name: str) -> logging.Logger:
+def get_logger(name: str) -> logging.Logger:
     return logger.getChild(name)

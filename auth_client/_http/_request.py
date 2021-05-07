@@ -17,7 +17,7 @@
 __all__ = ("Method", "ContentType", "Request", "URLError", "SocketTimeout")
 
 
-from .._logger._logger import getLogger
+from .._logger._logger import get_logger
 from ._response import Response
 import typing
 import socket
@@ -27,7 +27,7 @@ import urllib.parse
 import json
 
 
-_logger = getLogger(__name__.rsplit(".", 1)[-1].replace("_", ""))
+_logger = get_logger(__name__.rsplit(".", 1)[-1].replace("_", ""))
 
 
 class SocketTimeout(Exception):
