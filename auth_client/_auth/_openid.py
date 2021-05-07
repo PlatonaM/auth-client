@@ -51,12 +51,12 @@ class Token:
 
 
 class Client:
-    def __init__(self, url: str, client_id: str, secret: typing.Optional[str] = None, user: typing.Optional[str] = None, password: typing.Optional[str] = None, user_id: typing.Optional[str] = None, timeout: typing.Optional[int] = 15):
+    def __init__(self, url: str, client_id: str, client_secret: typing.Optional[str] = None, user: typing.Optional[str] = None, password: typing.Optional[str] = None, user_id: typing.Optional[str] = None, timeout: typing.Optional[int] = 15):
         """
         Create a client object.
         :param url: URL of authorization endpoint.
         :param client_id: Client ID required by the authorization endpoint.
-        :param secret: Secret, required by the client-credentials and token-exchange grant type.
+        :param client_secret: Secret, required by the client-credentials and token-exchange grant type.
         :param user: Username, required by the resource-owner-password grant type.
         :param password: Password, required by the resource-owner-password grant type.
         :param user_id: User ID, required by the token-exchange grant type.
@@ -66,7 +66,7 @@ class Client:
         self.__usr = user
         self.__pw = password
         self.__id = client_id
-        self.__secret = secret
+        self.__client_secret = client_secret
         self.__usr_id = user_id
         self.__timeout = timeout
         self.__access_token = None
@@ -139,15 +139,15 @@ class Client:
     def __token_request(self) -> None:
         _logger.debug("requesting new access token ...")
         payload = {"client_id": self.__id}
-        if self.__usr_id and self.__secret:
+        if self.__usr_id and self.__client_secret:
             _logger.debug("using token-exchange grant type")
             payload["grant_type"] = "urn:ietf:params:oauth:grant-type:token-exchange"
-            payload["client_secret"] = self.__secret
+            payload["client_secret"] = self.__client_secret
             payload["requested_subject"] = self.__usr_id
-        elif self.__secret:
+        elif self.__client_secret:
             _logger.debug("using client-credentials grant type")
             payload["grant_type"] = "client_credentials"
-            payload["client_secret"] = self.__secret
+            payload["client_secret"] = self.__client_secret
         elif self.__usr and self.__pw:
             _logger.debug("using resource-owner-password grant type")
             payload["grant_type"] = "password"
@@ -166,7 +166,7 @@ class Client:
             "client_id": self.__id,
             "refresh_token": self.__refresh_token.token
         }
-        if self.__secret:
-            payload["client_secret"] = self.__secret
+        if self.__client_secret:
+            payload["client_secret"] = self.__client_secret
         self.__request("refresh", payload)
         _logger.debug("requesting access token refresh successful")
