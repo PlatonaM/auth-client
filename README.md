@@ -44,6 +44,7 @@ Create a client object with:
 + `secret` Secret, required by the client-credentials grant type [optional]
 + `user` Username, required by the resource-owner-password grant type [optional]
 + `password` Password, required by the resource-owner-password grant type [optional]
++ `user_id` User ID, required by the token-exchange grant type [optional] 
 + `timeout` Request timeout [optional]
 
 ### Get Token
@@ -67,11 +68,11 @@ Logging
 
 The package utilizes the python logging facility to provide feedback during runtime. Enable logging via:
         
-    auth_client.logger.init(level=logging.INFO, handler=None, formatter=None)
-
-+ `level` Set log level [optional] ([see levels](https://docs.python.org/3/library/logging.html#logging-levels))
-+ `handler` Output handler object [optional] ([see handlers](https://docs.python.org/3/library/logging.handlers.html#module-logging.handlers))
-+ `formatter` Output formatter object [optional] ([see formatter](https://docs.python.org/3/library/logging.html#formatter-objects))
+    handler = logging.StreamHandler()
+ 
+    ac_logger = logging.getLogger("auth-client")
+    ac_logger.addHandler(handler)
+    ac_logger.setLevel(logging.DEBUG)
 
 Example
 -----------------
